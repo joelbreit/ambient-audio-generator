@@ -94,8 +94,7 @@ const AmbientAudioGenerator = () => {
       const audio = createAmbientAudio();
       audio.start();
       setIsPlaying(true);
-      // Use setTimeout to ensure state update has happened before animation
-      setTimeout(() => animateWave(true), 0);
+      animateWave(true); // Remove setTimeout, just call directly
     } else {
       if (ambientAudioNodeRef.current) {
         ambientAudioNodeRef.current.stop();
@@ -232,8 +231,7 @@ const AmbientAudioGenerator = () => {
         let time = 0;
 
         const animate = () => {
-          if (!isPlaying) return;
-
+          // Remove the isPlaying check here as it won't update with state changes
           time += 0.05;
 
           // Create wave effect by summing multiple sine waves
@@ -256,8 +254,16 @@ const AmbientAudioGenerator = () => {
             waveRef.current.style.transform = `translateX(${shift}px)`;
           }
 
-          animationFrameRef.current = requestAnimationFrame(animate);
+          // Only continue animation if we haven't been canceled
+          if (active) {
+            animationFrameRef.current = requestAnimationFrame(animate);
+          }
         };
+
+        // Cancel any existing animation before starting a new one
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
 
         animate();
       } else {
@@ -318,6 +324,10 @@ const AmbientAudioGenerator = () => {
           >
             {isPlaying ? "Pause" : "Play"}
           </button>
+          <p className="text-xs text-center mt-2 text-slate-300 italic">
+            On mobile devices, make sure your ringer/silent switch is unmuted to
+            hear audio
+          </p>
         </div>
 
         <div className="space-y-4 mb-6">
@@ -345,7 +355,9 @@ const AmbientAudioGenerator = () => {
               onChange={(e) => setAudioColor(parseFloat(e.target.value))}
               className="flex-1"
             />
-            <span className="text-sm min-w-16 text-right">{colorLabel}</span>
+            <span className="text-sm w-24 text-center whitespace-nowrap">
+              {colorLabel}
+            </span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -405,14 +417,24 @@ const AmbientAudioGenerator = () => {
         <div>
           {/* GitHub */}
           Source code available on{" "}
-          <a href="" target="_blank" rel="noreferrer" className="underline">
+          <a
+            href="https://github.com/joelbreit/ambient-audio-generator"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
             GitHub
           </a>
           {/* MIT License */}.
         </div>
         <div>
           {" "}
-          <a href="" target="_blank" rel="noreferrer" className="underline">
+          <a
+            href="https://opensource.org/licenses/MIT"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
             MIT License
           </a>{" "}
           (free to use and modify)
