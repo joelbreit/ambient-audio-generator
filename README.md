@@ -1,7 +1,5 @@
 # Ambient Audio Generator
 
-<!-- Add Demo Gif -->
-
 ## Description
 
 This web app is a customizable ambient audio generator designed to provide ambient audio "colors" like white noise, brown noise, and pink noise available to anyone anywhere without the hassle of app downloads, paywalls, etc. Ambient noise helps people focus, relax, and sleep better. I personally like brown noise playing in addition to other focus music for maximum lock-in, and I wanted this to be available anywhere with no hassle. Like other audio generators, this app gives control over the "color" of your audio, from deep brown to pink-white, allowing you to pick what fits you best.
@@ -19,6 +17,11 @@ This web app is a customizable ambient audio generator designed to provide ambie
 ## Live Demo
 
 Try the app live at: [ambient-audio.com](https://ambient-audio.com)
+
+<!-- TODO Add Demo Gif -->
+
+<!-- src/assets/logo.png -->
+![Screenshot](src/assets/Screenshot.png)
 
 ## Technology Stack
 
