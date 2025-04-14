@@ -4,7 +4,7 @@ import AmbientAudioGenerator from "./components/AmbientAudioGenerator";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AmbientAudioGenerator />
-  </React.StrictMode>
+    <React.StrictMode>
+        <AmbientAudioGenerator />
+    </React.StrictMode>
 );
