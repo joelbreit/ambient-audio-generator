@@ -1,4 +1,6 @@
 import { getColorLabel } from "../../utils/helpers";
+import InfoButton from "../InfoButton";
+import { controlExplanations } from "../../utils/controlExplanations";
 
 const CoreAudioControls = ({ params, onUpdateParam }) => {
 	return (
@@ -11,6 +13,10 @@ const CoreAudioControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Master Volume
+						<InfoButton
+							controlKey="volume"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							{params.volume}%
 						</span>
@@ -30,6 +36,10 @@ const CoreAudioControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Color
+						<InfoButton
+							controlKey="color"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							{getColorLabel(params.color)}
 						</span>
@@ -49,6 +59,10 @@ const CoreAudioControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Bass Boost
+						<InfoButton
+							controlKey="bassBoost"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							+{params.bassBoost}dB
 						</span>
@@ -68,6 +82,10 @@ const CoreAudioControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						High Cut
+						<InfoButton
+							controlKey="highCut"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							{(params.highCut / 1000).toFixed(1)}kHz
 						</span>
@@ -90,4 +108,3 @@ const CoreAudioControls = ({ params, onUpdateParam }) => {
 };
 
 export default CoreAudioControls;
-

@@ -1,3 +1,6 @@
+import InfoButton from "../InfoButton";
+import { controlExplanations } from "../../utils/controlExplanations";
+
 const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 	return (
 		<div className="bg-slate-800 bg-opacity-60 backdrop-blur-xl rounded-2xl p-5 border border-pink-500 border-opacity-20">
@@ -8,7 +11,13 @@ const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 			<div className="space-y-4">
 				<div>
 					<label className="flex items-center justify-between mb-2 text-sm text-slate-300">
-						Modulation
+						<span className="flex items-center">
+							Modulation
+							<InfoButton
+								controlKey="ampMod"
+								explanations={controlExplanations}
+							/>
+						</span>
 						<div
 							onClick={() => onToggleParam("ampMod")}
 							className={`w-12 h-6 rounded-full cursor-pointer transition-all ${
@@ -27,6 +36,10 @@ const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Mod Depth
+						<InfoButton
+							controlKey="modDepth"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							{(params.modDepth / 10).toFixed(1)}dB
 						</span>
@@ -46,6 +59,10 @@ const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Mod Speed
+						<InfoButton
+							controlKey="modSpeed"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							{params.modSpeed}s
 						</span>
@@ -67,4 +84,3 @@ const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 };
 
 export default VariationControls;
-

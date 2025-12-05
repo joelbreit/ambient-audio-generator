@@ -3,7 +3,7 @@ export const presets = {
 		name: "🎯 Deep Focus",
 		description: "Maximum masking for noisy environments",
 		params: {
-			volume: 60,
+			volume: 25,
 			color: 12,
 			speechMask: 6,
 			presence: 4,
@@ -21,7 +21,7 @@ export const presets = {
 		name: "☁️ Light Background",
 		description: "Gentle, unobtrusive ambient sound",
 		params: {
-			volume: 35,
+			volume: 25,
 			color: 25,
 			speechMask: 2,
 			presence: 1,
@@ -39,7 +39,7 @@ export const presets = {
 		name: "😴 Sleep Mode",
 		description: "Deep, consistent sound for rest",
 		params: {
-			volume: 40,
+			volume: 25,
 			color: 8,
 			speechMask: 5,
 			presence: 0,
@@ -57,7 +57,7 @@ export const presets = {
 		name: "🎨 Creative Work",
 		description: "Inspiring variation for creative tasks",
 		params: {
-			volume: 45,
+			volume: 25,
 			color: 20,
 			speechMask: 3,
 			presence: 3,

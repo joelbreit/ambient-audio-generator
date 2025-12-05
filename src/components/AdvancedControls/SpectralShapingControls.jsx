@@ -1,3 +1,6 @@
+import InfoButton from "../InfoButton";
+import { controlExplanations } from "../../utils/controlExplanations";
+
 const SpectralShapingControls = ({ params, onUpdateParam }) => {
 	return (
 		<div className="bg-slate-800 bg-opacity-60 backdrop-blur-xl rounded-2xl p-5 border border-purple-500 border-opacity-20">
@@ -9,6 +12,10 @@ const SpectralShapingControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Speech Masking (250-500Hz)
+						<InfoButton
+							controlKey="speechMask"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							+{params.speechMask}dB
 						</span>
@@ -19,7 +26,10 @@ const SpectralShapingControls = ({ params, onUpdateParam }) => {
 						max="10"
 						value={params.speechMask}
 						onChange={(e) =>
-							onUpdateParam("speechMask", parseInt(e.target.value))
+							onUpdateParam(
+								"speechMask",
+								parseInt(e.target.value)
+							)
 						}
 						className="w-full"
 					/>
@@ -28,6 +38,10 @@ const SpectralShapingControls = ({ params, onUpdateParam }) => {
 				<div>
 					<label className="block mb-2 text-sm text-slate-300">
 						Presence (2-4kHz)
+						<InfoButton
+							controlKey="presence"
+							explanations={controlExplanations}
+						/>
 						<span className="float-right text-slate-400">
 							+{params.presence}dB
 						</span>
@@ -49,4 +63,3 @@ const SpectralShapingControls = ({ params, onUpdateParam }) => {
 };
 
 export default SpectralShapingControls;
-
