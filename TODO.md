@@ -9,8 +9,17 @@
 - [ ] Visualization isn't starting until settings are tweaked
 - [ ] Better slider components
 - [ ] Footer component
-- [ ] Info popovers aren't on top
-- [ ] Some info icons go over edges of screen
+- [x] Info popovers aren't on top
+- [x] Some info icons go over edges of screen
+- [ ] Clickable portion of info elements encompasses too much
+- [ ] Save custom settings
+  - [ ] To account
+    - [ ] Create account
+    - [ ] Login
+    - [ ] Logout
+    - [ ] Delete account
+  - [ ] Locally
+- [ ] Light mode
 
 - [ ] Add Demo Gif
 
