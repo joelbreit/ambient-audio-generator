@@ -1,7 +1,7 @@
 # Tasks
 
 - [x] Info buttons
-- [ ] toggles don't move
+- [x] toggles don't move
 - [ ] Start button should have its own row
 - [ ] Sleep timer should be modifiable
 - [x] Non emoji icons

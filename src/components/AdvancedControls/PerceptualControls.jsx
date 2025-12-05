@@ -31,7 +31,7 @@ const PerceptualControls = ({ params, onUpdateParam, onToggleParam }) => {
 							<div
 								className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all ${
 									params.fletcherMunson
-										? "left-6.5"
+										? "right-0.5"
 										: "left-0.5"
 								}`}
 							/>
@@ -58,7 +58,7 @@ const PerceptualControls = ({ params, onUpdateParam, onToggleParam }) => {
 						>
 							<div
 								className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all ${
-									params.resonance ? "left-6.5" : "left-0.5"
+									params.resonance ? "right-0.5" : "left-0.5"
 								}`}
 							/>
 						</div>

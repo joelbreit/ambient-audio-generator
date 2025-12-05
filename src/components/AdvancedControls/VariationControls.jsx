@@ -28,7 +28,7 @@ const VariationControls = ({ params, onUpdateParam, onToggleParam }) => {
 						>
 							<div
 								className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all ${
-									params.ampMod ? "left-6.5" : "left-0.5"
+									params.ampMod ? "right-0.5" : "left-0.5"
 								}`}
 							/>
 						</div>
