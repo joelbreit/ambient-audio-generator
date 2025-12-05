@@ -1,11 +1,13 @@
 import InfoButton from "../InfoButton";
 import { controlExplanations } from "../../utils/controlExplanations";
+import { Volume2 } from "lucide-react";
 
 const SpectralShapingControls = ({ params, onUpdateParam }) => {
 	return (
 		<div className="bg-slate-800 bg-opacity-60 backdrop-blur-xl rounded-2xl p-5 border border-purple-500 border-opacity-20">
-			<h3 className="text-lg font-semibold mb-4 text-purple-400">
-				🔊 Spectral Shaping
+			<h3 className="text-lg font-semibold mb-4 text-purple-400 flex items-center gap-2">
+				<Volume2 className="w-5 h-5" />
+				Spectral Shaping
 			</h3>
 
 			<div className="space-y-4">

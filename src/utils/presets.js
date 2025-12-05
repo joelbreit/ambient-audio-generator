@@ -1,6 +1,6 @@
 export const presets = {
 	deepFocus: {
-		name: "🎯 Deep Focus",
+		name: "Deep Focus",
 		description: "Maximum masking for noisy environments",
 		params: {
 			volume: 25,
@@ -18,7 +18,7 @@ export const presets = {
 		},
 	},
 	lightBackground: {
-		name: "☁️ Light Background",
+		name: "Light Background",
 		description: "Gentle, unobtrusive ambient sound",
 		params: {
 			volume: 25,
@@ -36,7 +36,7 @@ export const presets = {
 		},
 	},
 	sleep: {
-		name: "😴 Sleep Mode",
+		name: "Sleep Mode",
 		description: "Deep, consistent sound for rest",
 		params: {
 			volume: 25,
@@ -54,7 +54,7 @@ export const presets = {
 		},
 	},
 	creative: {
-		name: "🎨 Creative Work",
+		name: "Creative Work",
 		description: "Inspiring variation for creative tasks",
 		params: {
 			volume: 25,
@@ -72,7 +72,7 @@ export const presets = {
 		},
 	},
 	custom: {
-		name: "⚙️ Custom",
+		name: "Custom",
 		description: "Your personalized settings",
 		params: null,
 	},

@@ -1,11 +1,13 @@
 import InfoButton from "../InfoButton";
 import { controlExplanations } from "../../utils/controlExplanations";
+import { Brain } from "lucide-react";
 
 const PerceptualControls = ({ params, onUpdateParam, onToggleParam }) => {
 	return (
 		<div className="bg-slate-800 bg-opacity-60 backdrop-blur-xl rounded-2xl p-5 border border-green-500 border-opacity-20">
-			<h3 className="text-lg font-semibold mb-4 text-green-400">
-				🧠 Perceptual
+			<h3 className="text-lg font-semibold mb-4 text-green-400 flex items-center gap-2">
+				<Brain className="w-5 h-5" />
+				Perceptual
 			</h3>
 
 			<div className="space-y-4">

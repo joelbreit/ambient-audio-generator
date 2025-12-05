@@ -1,8 +1,11 @@
+import { FlaskConical } from "lucide-react";
+
 const InfoSection = () => {
 	return (
 		<div className="bg-slate-800 bg-opacity-40 backdrop-blur-xl rounded-2xl p-5 border border-blue-500 border-opacity-10">
-			<h3 className="text-sm font-semibold mb-2 text-blue-400">
-				🔬 Active Technologies
+			<h3 className="text-sm font-semibold mb-2 text-blue-400 flex items-center gap-2">
+				<FlaskConical className="w-4 h-4" />
+				Active Technologies
 			</h3>
 			<div className="flex flex-wrap gap-2 mb-3">
 				<span className="px-3 py-1 bg-blue-500 bg-opacity-20 border border-blue-500 border-opacity-30 rounded-full text-xs">
@@ -28,14 +31,13 @@ const InfoSection = () => {
 				This advanced generator uses multiple overlapping modulation
 				sources, extended buffers to prevent pattern detection, dynamic
 				range compression for consistent loudness, Fletcher-Munson
-				compensation, targeted frequency masking for common distractions,
-				and slowly drifting resonance filters that add natural spatial
-				character—all scientifically designed to maximize focus while
-				minimizing listening fatigue.
+				compensation, targeted frequency masking for common
+				distractions, and slowly drifting resonance filters that add
+				natural spatial character—all scientifically designed to
+				maximize focus while minimizing listening fatigue.
 			</p>
 		</div>
 	);
 };
 
 export default InfoSection;
-

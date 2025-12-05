@@ -1,12 +1,14 @@
 import { getColorLabel } from "../../utils/helpers";
 import InfoButton from "../InfoButton";
 import { controlExplanations } from "../../utils/controlExplanations";
+import { SlidersHorizontal } from "lucide-react";
 
 const CoreAudioControls = ({ params, onUpdateParam }) => {
 	return (
 		<div className="bg-slate-800 bg-opacity-60 backdrop-blur-xl rounded-2xl p-5 border border-blue-500 border-opacity-20">
-			<h3 className="text-lg font-semibold mb-4 text-blue-400">
-				🎚️ Core Audio
+			<h3 className="text-lg font-semibold mb-4 text-blue-400 flex items-center gap-2">
+				<SlidersHorizontal className="w-5 h-5" />
+				Core Audio
 			</h3>
 
 			<div className="space-y-4">

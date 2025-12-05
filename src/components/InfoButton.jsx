@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Info } from "lucide-react";
 
 const InfoButton = ({ controlKey, explanations }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +61,7 @@ const InfoButton = ({ controlKey, explanations }) => {
 				className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 bg-opacity-30 hover:bg-opacity-50 text-blue-300 hover:text-blue-200 text-xs font-semibold transition-all cursor-help"
 				aria-label={`Info about ${explanation.title}`}
 			>
-				ℹ
+				<Info className="w-4 h-4" />
 			</button>
 
 			{isOpen && (
@@ -73,7 +74,9 @@ const InfoButton = ({ controlKey, explanations }) => {
 					<h4 className="font-semibold text-blue-400 mb-2">
 						{explanation.title}
 					</h4>
-					<p className="text-slate-300 mb-2">{explanation.description}</p>
+					<p className="text-slate-300 mb-2">
+						{explanation.description}
+					</p>
 					{explanation.details && (
 						<p className="text-slate-400 text-xs leading-relaxed">
 							{explanation.details}
@@ -87,4 +90,3 @@ const InfoButton = ({ controlKey, explanations }) => {
 };
 
 export default InfoButton;
-
