@@ -10,10 +10,11 @@ const Header = () => {
 				</span>
 			</h1>
 			<p className="text-slate-400 text-sm">
-				Advanced focus-optimized audio with psychoacoustic processing
+				Ambient focus-optimized audio with customizable settings
 			</p>
 			<p className="text-slate-500 text-xs mt-1">
-				Press Space to play/pause • Use presets for instant optimization
+				Press Space to play/pause • Use presets or customize your own
+				settings
 			</p>
 		</div>
 	);

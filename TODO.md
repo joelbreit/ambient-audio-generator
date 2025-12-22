@@ -20,12 +20,27 @@
     - [ ] Delete account
   - [ ] Locally
 - [ ] Light mode
+- [ ] Tooltips on bottom freak out
+- [ ] Tooltips should not shown unless clicked (not on hover)
+- [ ] Name saved presets
 
 - [ ] Add Demo Gif
 
-2.0.0 - December 5th, 2025
+2.0.0 - December 22nd, 2025
 
-- [ ] More settings
+- [x] More settings
+  - [x] High Cut (reduce high frequencies)
+  - [x] Speech Masking
+  - [x] Presence Boost
+  - [x] Modulation
+  - [x] Modulation Depth
+  - [x] Modulation Speed
+  - [x] Fletcher-Munson
+  - [x] Resonance Zones
+  - [x] Stereo Width
+- [x] Presets 
+- [x] Settings saving
+- [x] New animation
 
 1.0.1 - April 14th, 2025
 

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import AmbientAudioGenerator2 from "./components/AmbientAudioGenerator2";
+import AmbientAudioGenerator from "./components/AmbientAudioGenerator";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<AmbientAudioGenerator2 />
+		<AmbientAudioGenerator />
 	</React.StrictMode>
 );

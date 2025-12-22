@@ -1,36 +1,112 @@
 import { useEffect, useRef, useCallback } from "react";
 
-const VisualizationCanvas = ({ analyserNodeRef, isPlaying }) => {
+const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
 	const canvasRef = useRef(null);
 	const animationFrameRef = useRef(null);
+	const fadeOutStartTimeRef = useRef(null);
+	const lastFrequencyDataRef = useRef(null);
+	const lastTimeDomainDataRef = useRef(null);
+	const FADE_OUT_DURATION = 2000; // 2 seconds to match audio fade-out
 
 	// Enhanced visualization with multiple display modes
 	const visualize = useCallback(() => {
 		const analyserNode = analyserNodeRef?.current;
-		if (!isPlaying || !canvasRef.current || !analyserNode) return;
+		const hasActiveAudio = sourceNodeRef?.current !== null;
+		const now = Date.now();
+
+		if (!canvasRef.current || !analyserNode) {
+			if (animationFrameRef.current) {
+				cancelAnimationFrame(animationFrameRef.current);
+				animationFrameRef.current = null;
+			}
+			return;
+		}
+
+		// Calculate fade-out progress (0 to 1)
+		let opacity = 1;
+		if (fadeOutStartTimeRef.current !== null) {
+			const fadeElapsed = now - fadeOutStartTimeRef.current;
+			if (fadeElapsed >= FADE_OUT_DURATION) {
+				// Fade-out complete - clear canvas and stop
+				const canvas = canvasRef.current;
+				const ctx = canvas.getContext("2d");
+				const width = canvas.width / window.devicePixelRatio;
+				const height = canvas.height / window.devicePixelRatio;
+				ctx.fillStyle = "rgba(15, 23, 42, 1)";
+				ctx.fillRect(0, 0, width, height);
+
+				if (animationFrameRef.current) {
+					cancelAnimationFrame(animationFrameRef.current);
+					animationFrameRef.current = null;
+				}
+				fadeOutStartTimeRef.current = null;
+				return;
+			}
+			opacity = 1 - fadeElapsed / FADE_OUT_DURATION;
+		}
+
+		// Continue with visualization during fade-out or when playing (even if source node is temporarily null during restart)
+		// This allows the visualization to continue smoothly during parameter changes that require audio restart
+		const shouldVisualize =
+			hasActiveAudio ||
+			(fadeOutStartTimeRef.current !== null && opacity > 0) ||
+			(isPlaying && lastFrequencyDataRef.current !== null);
+
+		if (!shouldVisualize) {
+			if (animationFrameRef.current) {
+				cancelAnimationFrame(animationFrameRef.current);
+				animationFrameRef.current = null;
+			}
+			return;
+		}
 
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext("2d");
 		const bufferLength = analyserNode.frequencyBinCount;
-		const dataArray = new Uint8Array(bufferLength);
-		analyserNode.getByteFrequencyData(dataArray);
+
+		// Initialize storage for last frame if needed
+		if (!lastFrequencyDataRef.current) {
+			lastFrequencyDataRef.current = new Uint8Array(bufferLength);
+		}
+		if (!lastTimeDomainDataRef.current) {
+			lastTimeDomainDataRef.current = new Uint8Array(bufferLength);
+		}
+
+		let frequencyData, timeDomainData;
+
+		// Get data only if source node exists, otherwise use last frame with fade
+		if (hasActiveAudio) {
+			frequencyData = new Uint8Array(bufferLength);
+			timeDomainData = new Uint8Array(bufferLength);
+			analyserNode.getByteFrequencyData(frequencyData);
+			analyserNode.getByteTimeDomainData(timeDomainData);
+			// Store last frame for fade-out
+			lastFrequencyDataRef.current.set(frequencyData);
+			lastTimeDomainDataRef.current.set(timeDomainData);
+		} else {
+			// During fade-out, use stored last frame
+			frequencyData = lastFrequencyDataRef.current;
+			timeDomainData = lastTimeDomainDataRef.current;
+		}
 
 		const width = canvas.width / window.devicePixelRatio;
 		const height = canvas.height / window.devicePixelRatio;
 
-		// Clear with fade effect
-		ctx.fillStyle = "rgba(15, 23, 42, 0.25)";
+		// Clear with fade effect - increase fade opacity as visualization fades out
+		const clearOpacity = 0.25 + (1 - opacity) * 0.75;
+		ctx.fillStyle = `rgba(15, 23, 42, ${clearOpacity})`;
 		ctx.fillRect(0, 0, width, height);
 
-		// Draw frequency bars with gradient
+		// Draw frequency bars with gradient and opacity fade
 		const barCount = 128;
 		const barWidth = width / barCount;
 
 		for (let i = 0; i < barCount; i++) {
 			const dataIndex = Math.floor((i * bufferLength) / barCount);
-			const barHeight = (dataArray[dataIndex] / 255) * height * 0.8;
+			const barHeight =
+				(frequencyData[dataIndex] / 255) * height * 0.8 * opacity;
 
-			// Create gradient for each bar
+			// Create gradient for each bar with opacity applied
 			const gradient = ctx.createLinearGradient(
 				0,
 				height,
@@ -38,8 +114,14 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying }) => {
 				height - barHeight
 			);
 			const hue = 200 + (i / barCount) * 60;
-			gradient.addColorStop(0, `hsla(${hue}, 80%, 50%, 0.8)`);
-			gradient.addColorStop(1, `hsla(${hue}, 90%, 65%, 0.9)`);
+			gradient.addColorStop(
+				0,
+				`hsla(${hue}, 80%, 50%, ${0.8 * opacity})`
+			);
+			gradient.addColorStop(
+				1,
+				`hsla(${hue}, 90%, 65%, ${0.9 * opacity})`
+			);
 
 			ctx.fillStyle = gradient;
 			ctx.fillRect(
@@ -50,17 +132,16 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying }) => {
 			);
 		}
 
-		// Draw waveform overlay
-		analyserNode.getByteTimeDomainData(dataArray);
+		// Draw waveform overlay with opacity fade
 		ctx.beginPath();
-		ctx.strokeStyle = "rgba(96, 165, 250, 0.5)";
+		ctx.strokeStyle = `rgba(96, 165, 250, ${0.5 * opacity})`;
 		ctx.lineWidth = 2;
 
 		const sliceWidth = width / bufferLength;
 		let x = 0;
 
 		for (let i = 0; i < bufferLength; i++) {
-			const v = dataArray[i] / 128.0;
+			const v = timeDomainData[i] / 128.0;
 			const y = (v * height) / 2;
 
 			if (i === 0) {
@@ -75,24 +156,47 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying }) => {
 		ctx.stroke();
 
 		animationFrameRef.current = requestAnimationFrame(visualize);
-	}, [isPlaying, analyserNodeRef]);
+	}, [analyserNodeRef, sourceNodeRef, isPlaying]);
 
-	// Start visualization when playing
+	// Start visualization when playing begins - loop continues during fade-out
 	useEffect(() => {
-		if (isPlaying && analyserNodeRef?.current) {
-			visualize();
-		} else {
-			if (animationFrameRef.current) {
-				cancelAnimationFrame(animationFrameRef.current);
-			}
+		const now = Date.now();
+
+		if (isPlaying) {
+			// Reset fade-out when starting to play
+			fadeOutStartTimeRef.current = null;
+			lastFrequencyDataRef.current = null;
+			lastTimeDomainDataRef.current = null;
+		} else if (
+			!isPlaying &&
+			fadeOutStartTimeRef.current === null &&
+			analyserNodeRef?.current
+		) {
+			// Pause just pressed - start fade-out timer
+			fadeOutStartTimeRef.current = now;
 		}
 
+		if (
+			(isPlaying || fadeOutStartTimeRef.current !== null) &&
+			analyserNodeRef?.current &&
+			!animationFrameRef.current
+		) {
+			// Start visualization when playing begins or during fade-out
+			// The loop itself will check source node existence and continue during fade-out
+			visualize();
+		}
+		// Don't cleanup here - let the loop stop itself when fade-out completes
+	}, [isPlaying, analyserNodeRef, visualize]);
+
+	// Cleanup on unmount only
+	useEffect(() => {
 		return () => {
 			if (animationFrameRef.current) {
 				cancelAnimationFrame(animationFrameRef.current);
+				animationFrameRef.current = null;
 			}
 		};
-	}, [isPlaying, analyserNodeRef, visualize]);
+	}, []);
 
 	// Canvas resize
 	useEffect(() => {
@@ -122,4 +226,3 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying }) => {
 };
 
 export default VisualizationCanvas;
-
