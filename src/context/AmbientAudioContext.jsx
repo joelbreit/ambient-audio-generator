@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import React, {
+	createContext,
+	useContext,
+	useState,
+	useCallback,
+	useEffect,
+} from "react";
 import { presets } from "../utils/presets";
 
 const AmbientAudioContext = createContext(null);
@@ -20,11 +26,6 @@ export const AmbientAudioProvider = ({ children }) => {
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [isFading, setIsFading] = useState(false);
 	const [params, setParams] = useState(presets.deepFocus.params);
-	const [timer, setTimer] = useState({
-		active: false,
-		remaining: 0,
-		duration: 30,
-	});
 	const [favorites, setFavorites] = useState([]);
 
 	// Load favorites from localStorage on mount
@@ -54,17 +55,9 @@ export const AmbientAudioProvider = ({ children }) => {
 	}, []);
 
 	// Toggle param
-	const toggleParam = useCallback(
-		(key) => {
-			setParams((prev) => ({ ...prev, [key]: !prev[key] }));
-			setCurrentPreset("custom");
-		},
-		[]
-	);
-
-	// Cancel timer
-	const cancelTimer = useCallback(() => {
-		setTimer((prev) => ({ active: false, remaining: 0, duration: prev.duration }));
+	const toggleParam = useCallback((key) => {
+		setParams((prev) => ({ ...prev, [key]: !prev[key] }));
+		setCurrentPreset("custom");
 	}, []);
 
 	// Save favorite
@@ -112,14 +105,11 @@ export const AmbientAudioProvider = ({ children }) => {
 		setIsFading,
 		params,
 		setParams,
-		timer,
-		setTimer,
 		favorites,
 		// Actions
 		loadPreset,
 		updateParam,
 		toggleParam,
-		cancelTimer,
 		saveFavorite,
 		deleteFavorite,
 		loadFavorite,

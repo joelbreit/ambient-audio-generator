@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import {
 	AmbientAudioProvider,
 	useAmbientAudioContext,
@@ -8,7 +8,6 @@ import { presets } from "../utils/presets";
 import Header from "./Header";
 import VisualizationCanvas from "./VisualizationCanvas";
 import PlayButton from "./PlayButton";
-import TimerControls from "./TimerControls";
 import PresetsGrid from "./PresetsGrid";
 import AdvancedControls from "./AdvancedControls";
 import CustomPresetSave from "./CustomPresetSave";
@@ -24,20 +23,14 @@ const AmbientAudioGeneratorContent = () => {
 		isFading,
 		setIsFading,
 		params,
-		timer,
-		setTimer,
 		favorites,
 		loadPreset,
 		updateParam,
 		toggleParam,
-		startTimer,
-		cancelTimer,
 		saveFavorite,
 		deleteFavorite,
 		loadFavorite,
 	} = useAmbientAudioContext();
-
-	const timerIntervalRef = useRef(null);
 
 	// Audio hook
 	const {
@@ -117,55 +110,6 @@ const AmbientAudioGeneratorContent = () => {
 		]
 	);
 
-	// Timer with audio integration
-	const handleStartTimer = useCallback(
-		(minutes) => {
-			if (timerIntervalRef.current) {
-				clearInterval(timerIntervalRef.current);
-			}
-
-			setTimer({
-				active: true,
-				remaining: minutes * 60,
-				duration: minutes,
-			});
-
-			timerIntervalRef.current = setInterval(() => {
-				setTimer((prev) => {
-					const newRemaining = prev.remaining - 1;
-
-					if (newRemaining <= 0) {
-						clearInterval(timerIntervalRef.current);
-						if (isPlaying) {
-							stopAudioHook();
-							setIsPlaying(false);
-						}
-						return {
-							active: false,
-							remaining: 0,
-							duration: prev.duration,
-						};
-					}
-
-					// Fade out in last 10 seconds
-					if (newRemaining <= 10 && isPlaying) {
-						fadeVolume(0, 10);
-					}
-
-					return { ...prev, remaining: newRemaining };
-				});
-			}, 1000);
-		},
-		[setTimer, isPlaying, stopAudioHook, setIsPlaying, fadeVolume]
-	);
-
-	const handleCancelTimer = useCallback(() => {
-		if (timerIntervalRef.current) {
-			clearInterval(timerIntervalRef.current);
-		}
-		cancelTimer();
-	}, [cancelTimer]);
-
 	// Load favorite
 	const handleLoadFavorite = useCallback(
 		(favParams) => {
@@ -198,9 +142,6 @@ const AmbientAudioGeneratorContent = () => {
 	useEffect(() => {
 		return () => {
 			stopAudioHook(true);
-			if (timerIntervalRef.current) {
-				clearInterval(timerIntervalRef.current);
-			}
 		};
 	}, [stopAudioHook]);
 
@@ -215,16 +156,11 @@ const AmbientAudioGeneratorContent = () => {
 					sourceNodeRef={sourceNodeRef}
 				/>
 
-				{/* Play Button & Timer */}
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+				{/* Play Button */}
+				<div className="flex justify-center items-center gap-3 mb-6">
 					<PlayButton
 						isPlaying={isPlaying}
 						onTogglePlay={togglePlay}
-					/>
-					<TimerControls
-						timer={timer}
-						onStartTimer={handleStartTimer}
-						onCancelTimer={handleCancelTimer}
 					/>
 				</div>
 
