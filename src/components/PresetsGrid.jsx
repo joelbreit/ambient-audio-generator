@@ -1,6 +1,14 @@
-import { Target, Cloud, Moon, Palette, Settings } from "lucide-react";
+import {
+	Target,
+	Cloud,
+	Moon,
+	Palette,
+	Settings,
+	Headphones,
+} from "lucide-react";
 
 const presetIcons = {
+	default: Headphones,
 	deepFocus: Target,
 	lightBackground: Cloud,
 	sleep: Moon,
@@ -15,7 +23,7 @@ const PresetsGrid = ({ presets, currentPreset, onLoadPreset }) => {
 				<Target className="w-5 h-5" />
 				Quick Presets
 			</h3>
-			<div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
 				{Object.entries(presets).map(([key, preset]) => {
 					const IconComponent = presetIcons[key] || Target;
 					return (

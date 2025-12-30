@@ -22,10 +22,10 @@ export const useAmbientAudioContext = () => {
 export const AmbientAudioProvider = ({ children }) => {
 	// State
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [currentPreset, setCurrentPreset] = useState("deepFocus");
+	const [currentPreset, setCurrentPreset] = useState("default");
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [isFading, setIsFading] = useState(false);
-	const [params, setParams] = useState(presets.deepFocus.params);
+	const [params, setParams] = useState(presets.default.params);
 	const [favorites, setFavorites] = useState([]);
 
 	// Load favorites from localStorage on mount

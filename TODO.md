@@ -18,6 +18,9 @@
 
 - [ ] Add Demo Gif
 
+2.0.1 - December 30th, 2025
+- [x] Add default preset
+
 2.0.0 - December 22nd, 2025
 
 - [x] More settings

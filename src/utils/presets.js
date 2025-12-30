@@ -1,4 +1,22 @@
 export const presets = {
+	default: {
+		name: "Default",
+		description: "Balanced preset",
+		params: {
+			volume: 40,
+			color: 5,
+			speechMask: 6,
+			presence: 4,
+			ampMod: true,
+			modDepth: 8,
+			modSpeed: 90,
+			fletcherMunson: true,
+			resonance: true,
+			stereo: 30,
+			bassBoost: 5,
+			highCut: 4000,
+		},
+	},
 	deepFocus: {
 		name: "Deep Focus",
 		description: "Maximum masking for noisy environments",
