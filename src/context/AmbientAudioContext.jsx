@@ -61,21 +61,26 @@ export const AmbientAudioProvider = ({ children }) => {
 	}, []);
 
 	// Save favorite
-	const saveFavorite = useCallback(() => {
-		setFavorites((prevFavorites) => {
-			const favorite = {
-				name: `Custom ${prevFavorites.length + 1}`,
-				params: { ...params },
-				timestamp: Date.now(),
-			};
-			const newFavorites = [...prevFavorites, favorite];
-			localStorage.setItem(
-				"brownNoiseFavorites",
-				JSON.stringify(newFavorites)
-			);
-			return newFavorites;
-		});
-	}, [params]);
+	const saveFavorite = useCallback(
+		(name) => {
+			setFavorites((prevFavorites) => {
+				const favoriteName =
+					name?.trim() || `Custom ${prevFavorites.length + 1}`;
+				const favorite = {
+					name: favoriteName,
+					params: { ...params },
+					timestamp: Date.now(),
+				};
+				const newFavorites = [...prevFavorites, favorite];
+				localStorage.setItem(
+					"brownNoiseFavorites",
+					JSON.stringify(newFavorites)
+				);
+				return newFavorites;
+			});
+		},
+		[params]
+	);
 
 	const deleteFavorite = useCallback((index) => {
 		setFavorites((prevFavorites) => {

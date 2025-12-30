@@ -14,12 +14,12 @@
 - [ ] Light mode
 - [ ] Tooltips on bottom freak out
 - [ ] Tooltips should not shown unless clicked (not on hover)
-- [ ] Name saved presets
 
 - [ ] Add Demo Gif
 
 2.0.1 - December 30th, 2025
-- [x] Add default preset
+- [x] Added default preset
+- [x] Added input field for naming saved presets
 
 2.0.0 - December 22nd, 2025
 
