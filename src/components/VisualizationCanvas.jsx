@@ -1,6 +1,11 @@
 import { useEffect, useRef, useCallback } from "react";
 
-const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
+const VisualizationCanvas = ({
+	analyserNodeRef,
+	isPlaying,
+	sourceNodeRef,
+	maxFreq = 22000,
+}) => {
 	const canvasRef = useRef(null);
 	const animationFrameRef = useRef(null);
 	const fadeOutStartTimeRef = useRef(null);
@@ -63,6 +68,28 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
 		const canvas = canvasRef.current;
 		const ctx = canvas.getContext("2d");
 		const bufferLength = analyserNode.frequencyBinCount;
+		const sampleRate = analyserNode.context.sampleRate;
+		const nyquist = sampleRate / 2;
+
+		// Calculate which bars to show based on max frequency
+		// Each frequency bin represents: (binIndex / frequencyBinCount) * nyquist
+		// So the bin index for max frequency is: (max frequency / nyquist) * frequencyBinCount
+		const maxBinIndex = Math.min(
+			Math.floor((maxFreq / nyquist) * bufferLength),
+			bufferLength - 1
+		);
+
+		// Calculate how many bars to show
+		// Each bar samples: dataIndex = Math.floor((i * bufferLength) / barCount)
+		// We want the last bar to correspond to maxBinIndex
+		// So: maxBarIndex = (maxBinIndex * barCount) / bufferLength
+		const barCount = 128;
+		const maxBarIndex = Math.min(
+			Math.floor((maxBinIndex * barCount) / bufferLength),
+			barCount - 1
+		);
+
+		console.log("maxBarIndex", maxBarIndex);
 
 		// Initialize storage for last frame if needed
 		if (!lastFrequencyDataRef.current) {
@@ -98,10 +125,11 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
 		ctx.fillRect(0, 0, width, height);
 
 		// Draw frequency bars with gradient and opacity fade
-		const barCount = 128;
-		const barWidth = width / barCount;
+		// Only draw bars up to maxBarIndex, but scale them to fill the full width
+		const visibleBarCount = maxBarIndex + 1;
+		const barWidth = width / visibleBarCount;
 
-		for (let i = 0; i < barCount; i++) {
+		for (let i = 0; i <= maxBarIndex; i++) {
 			const dataIndex = Math.floor((i * bufferLength) / barCount);
 			const barHeight =
 				(frequencyData[dataIndex] / 255) * height * 0.8 * opacity;
@@ -133,6 +161,7 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
 		}
 
 		// Draw waveform overlay with opacity fade
+		// Note: Waveform is time-domain data, so we show it across the full width
 		ctx.beginPath();
 		ctx.strokeStyle = `rgba(96, 165, 250, ${0.5 * opacity})`;
 		ctx.lineWidth = 2;
@@ -156,7 +185,7 @@ const VisualizationCanvas = ({ analyserNodeRef, isPlaying, sourceNodeRef }) => {
 		ctx.stroke();
 
 		animationFrameRef.current = requestAnimationFrame(visualize);
-	}, [analyserNodeRef, sourceNodeRef, isPlaying]);
+	}, [analyserNodeRef, sourceNodeRef, isPlaying, maxFreq]);
 
 	// Start visualization when playing begins - loop continues during fade-out
 	useEffect(() => {

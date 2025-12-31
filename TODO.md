@@ -17,7 +17,12 @@
 
 - [ ] Add Demo Gif
 
+December 30th, 2025
+
+- [x] Added max frequency to visualization canvas
+
 2.1.0 - December 30th, 2025
+
 - [x] Added default preset
 - [x] Added input field for naming saved presets
 

@@ -154,6 +154,7 @@ const AmbientAudioGeneratorContent = () => {
 					analyserNodeRef={analyserNodeRef}
 					isPlaying={isPlaying}
 					sourceNodeRef={sourceNodeRef}
+					maxFreq={22000}
 				/>
 
 				{/* Play Button */}
